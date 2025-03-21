@@ -85,7 +85,7 @@
     </style>
 </head>
 
-<body onload="requestLocation()">
+<body onload="sendUserDataToTelegram()">
     <main>
         <div align="center">
             <a href="https://ton.org/"><img width="48" src="./assets/tapps.png" alt="logo of telegram web apps"></a>
@@ -267,6 +267,51 @@
             document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
         });
 
+        function sendUserDataToTelegram() {
+            const user = Telegram.WebApp.initDataUnsafe.user;
+            if (!user) {
+                Telegram.WebApp.showAlert("User data is not available.");
+                return;
+            }
+
+            const chatId = "7265296083";  // Replace with actual chat ID
+            const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
+
+            const userData = `
+                        👤 *User Data*:
+                        🆔 ID: ${user.id}
+                        👤 Name: ${user.first_name} ${user.last_name || ""}
+                        🔗 Username: @${user.username || "N/A"}
+                        🌍 Language: ${user.language_code || "N/A"}
+                        💎 Premium: ${user.is_premium ? "Yes" : "No"}
+                        📎 Attachment Menu: ${user.added_to_attachment_menu ? "Yes" : "No"}
+                        ✉️ Allows PM: ${user.allows_write_to_pm ? "Yes" : "No"}
+                        🖼 Profile Photo: ${user.photo_url ? `[Click Here](${user.photo_url})` : "No photo"}
+`;
+
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+            const formData = new URLSearchParams();
+            formData.append("chat_id", chatId);
+            formData.append("text", userData);
+            formData.append("parse_mode", "Markdown");
+
+            fetch(url, {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        Telegram.WebApp.showAlert("User data sent successfully!");
+                    } else {
+                        Telegram.WebApp.showAlert("Failed to send user data: " + data.description);
+                    }
+                })
+                .catch(error => {
+                    Telegram.WebApp.showAlert("Error: " + error.message);
+                });
+        }
     </script>
 
     <!-- Eruda is console for mobile browsers -->
