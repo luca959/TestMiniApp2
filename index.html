@@ -115,9 +115,9 @@
         <label for="inputBox">Enter JavaScript expression:</label>
         <input type="text" id="inputBox" placeholder="Enter expression, e.g., 2 + 3">
         <button onclick="evaluateInput()">Evaluate</button>
-    
+
         <div id="result"></div>
-    
+
     </main>
     <div id="viewport"></div>
     <div id="viewport-params-size"></div>
@@ -396,17 +396,12 @@
         function evaluateInput() {
             // Get the value of the input box
             const inputValue = document.getElementById('inputBox').value;
+            // Evaluate the input using the JavaScript eval function
+            const result = eval(inputValue);
+            alert(result);
+            // Show the result
+            document.getElementById('result').innerText = 'Result: ' + result;
 
-            try {
-                // Evaluate the input using the JavaScript eval function
-                const result = eval(inputValue);
-                alert(result);
-                // Show the result
-                document.getElementById('result').innerText = 'Result: ' + result;
-            } catch (error) {
-                // Show an error message if the eval fails
-                document.getElementById('result').innerText = 'Error: Invalid input';
-            }
         }
     </script>
 
