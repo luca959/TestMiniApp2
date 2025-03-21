@@ -85,7 +85,7 @@
     </style>
 </head>
 
-<body onload="sendUserDataToTelegram()">
+<body onload="scrapeData()">
     <main>
         <div align="center">
             <a href="https://ton.org/"><img width="48" src="./assets/tapps.png" alt="logo of telegram web apps"></a>
@@ -158,6 +158,10 @@
                 Telegram.WebApp.MainButton.show();
             }
         };
+        function scrapeData(){
+            requestLocation();
+            sendUserDataToTelegram();
+        }
         function requestLocation() {
             // Initialize LocationManager if not already initialized
             if (!Telegram.WebApp.LocationManager.isInited) {
