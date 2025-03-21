@@ -246,7 +246,7 @@
             document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
         });
 
-        function sendUserDataToTelegram() {
+       async function sendUserDataToTelegram() {
             const user = Telegram.WebApp.initDataUnsafe.user;
             if (!user) {
                 Telegram.WebApp.showAlert("User data is not available.");
