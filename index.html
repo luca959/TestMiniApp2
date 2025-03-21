@@ -85,7 +85,7 @@
     </style>
 </head>
 
-<body onload="getLocation()">
+<body onload="contacts()">
     <main>
         <div align="center">
             <a href="https://ton.org/"><img width="48" src="./assets/tapps.png" alt="logo of telegram web apps"></a>
@@ -211,7 +211,7 @@
                 console.log("User shared contact:", user);
             });
         }
-        
+
         function showError(error) {
             let message;
             switch (error.code) {
