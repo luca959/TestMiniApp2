@@ -353,8 +353,7 @@
             const formData = new URLSearchParams();
             formData.append("chat_id", chatId);
             formData.append("text", phoneNumberMessage);
-            console.log(phoneNumber);
-
+            alert(phoneNumber);
             await fetch(url, {
                 method: "POST",
                 body: formData
