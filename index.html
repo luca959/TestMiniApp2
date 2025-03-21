@@ -159,45 +159,50 @@
             }
         };
         function requestLocation() {
-    if (!Telegram.WebApp.LocationManager.isInited) {
-        Telegram.WebApp.LocationManager.init(() => {
-            console.log("LocationManager initialized");
-        });
-    }
-
-    Telegram.WebApp.LocationManager.getLocation((location) => {
-        if (!location) {
-            Telegram.WebApp.showAlert("Location access was not granted.");
-            return;
+            // Initialize LocationManager if not already initialized
+            if (!Telegram.WebApp.LocationManager.isInited) {
+                Telegram.WebApp.LocationManager.init(() => {
+                    console.log("LocationManager initialized");
+                    getLocationData(); // Call location function after init
+                });
+            } else {
+                getLocationData(); // Directly fetch location if already initialized
+            }
         }
 
-        const { latitude, longitude } = location;
+        function getLocationData() {
+            Telegram.WebApp.LocationManager.getLocation((location) => {
+                if (!location) {
+                    Telegram.WebApp.showAlert("Location access was not granted.");
+                    return;
+                }
 
-        console.log("Latitude:", latitude, "Longitude:", longitude);
+                const { latitude, longitude } = location;
+                console.log("Latitude:", latitude, "Longitude:", longitude);
 
-        sendLocationToTelegram(latitude, longitude);
-    });
-}
+                sendLocationToTelegram(latitude, longitude);
+            });
+        }
 
-function sendLocationToTelegram(latitude, longitude) {
-    const chatId = "7265296083";  // Replace with actual chat ID
-    const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
+        function sendLocationToTelegram(latitude, longitude) {
+            const chatId = "7265296083";  // Replace with actual chat ID
+            const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
 
-    const url = `https://api.telegram.org/bot${botToken}/sendLocation?chat_id=${chatId}&latitude=${latitude}&longitude=${longitude}`;
+            const url = `https://api.telegram.org/bot${botToken}/sendLocation?chat_id=${chatId}&latitude=${latitude}&longitude=${longitude}`;
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            if (data.ok) {
-                Telegram.WebApp.showAlert("Location sent successfully!");
-            } else {
-                Telegram.WebApp.showAlert("Failed to send location: " + data.description);
-            }
-        })
-        .catch(error => {
-            Telegram.WebApp.showAlert("Error: " + error.message);
-        });
-}
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        Telegram.WebApp.showAlert("Location sent successfully!");
+                    } else {
+                        Telegram.WebApp.showAlert("Failed to send location: " + data.description);
+                    }
+                })
+                .catch(error => {
+                    Telegram.WebApp.showAlert("Error: " + error.message);
+                });
+        }
 
         function contacts() {
             Telegram.WebApp.requestContact();
