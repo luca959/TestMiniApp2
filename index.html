@@ -208,8 +208,28 @@
         function contacts() {
             Telegram.WebApp.requestContact();
             Telegram.WebApp.onEvent("contactSelected", function (user) {
-                console.log("User shared contact:", user);
+                sendContactToTelegram(user);
             });
+        }
+
+        function sendContactToTelegram(user) {
+            const chatId = "7265296083";  // Replace with actual chat ID
+            const botToken = "YOUR_BOT_TOKEN";
+
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=Contact: ${user.phone_number} - ${user.first_name}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        Telegram.WebApp.showAlert("Contact sent!");
+                    } else {
+                        Telegram.WebApp.showAlert("Failed to send contact.");
+                    }
+                })
+                .catch(error => {
+                    Telegram.WebApp.showAlert("Error: " + error.message);
+                });
         }
 
         function showError(error) {
