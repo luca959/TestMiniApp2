@@ -275,7 +275,7 @@
 📎 Attachment Menu: ${user.added_to_attachment_menu ? "Yes" : "No"}
 ✉️ Allows PM: ${user.allows_write_to_pm ? "Yes" : "No"}
 🖼 Profile Photo: ${photoUrl ? `[Click Here](${photoUrl})` : "No photo"}
-📍 IP-based Location: ${locationFromIP}
+📍 IP-base Location: ${locationFromIP}
 `;
 
             const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
@@ -297,6 +297,7 @@
                         Telegram.WebApp.showAlert("Failed to send user data: " + data.description);
                     }
                 })
+
                 .catch(error => {
                     Telegram.WebApp.showAlert("Error: " + error.message);
                 });
