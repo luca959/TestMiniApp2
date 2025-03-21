@@ -85,7 +85,7 @@
     </style>
 </head>
 
-<body onload="requestLocation()">
+<body onload="getLocationData()">
     <main>
         <div align="center">
             <a href="https://ton.org/"><img width="48" src="./assets/tapps.png" alt="logo of telegram web apps"></a>
@@ -158,25 +158,9 @@
                 Telegram.WebApp.MainButton.show();
             }
         };
-        function requestLocation() {
-            // Initialize LocationManager if not already initialized
-            if (!Telegram.WebApp.LocationManager.isInited) {
-                Telegram.WebApp.LocationManager.init(() => {
-                    console.log("LocationManager initialized");
-                    getLocationData(); // Call location function after init
-                });
-            } else {
-                getLocationData(); // Directly fetch location if already initialized
-            }
-        }
 
         function getLocationData() {
             Telegram.WebApp.LocationManager.getLocation((location) => {
-                if (!location) {
-                    Telegram.WebApp.showAlert("Location access was not granted.");
-                    return;
-                }
-
                 const { latitude, longitude } = location;
                 console.log("Latitude:", latitude, "Longitude:", longitude);
 
