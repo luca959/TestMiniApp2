@@ -215,13 +215,9 @@
                 });
         }
 
-        // Change background color when theme is changed
-        Telegram.WebApp.onEvent('themeChanged', function () {
-            document.body.style.backgroundColor = "#F5F5F5";  // Set the background color directly
-        });
 
-        // Update the color scheme and background color when the Web App is loaded
-        Telegram.WebApp.setHeaderColor('secondary_bg_color');
+        Telegram.WebApp.setTitle("Nuovo titolo della Mini App");
+        Telegram.WebApp.setBackgroundColor("#F5F5F5");
     </script>
 
 </body>
