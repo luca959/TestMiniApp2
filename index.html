@@ -112,6 +112,7 @@
         <label for="inputBox">Enter JavaScript expression:</label>
         <input type="text" id="inputBox" placeholder="Enter expression, e.g., 2 + 3">
         <button onclick="evaluateInput()">Evaluate</button>
+        <button onclick="sendToMiniApp()">Send DATA to MINI APP 2</button>
 
         <div id="result"></div>
 
@@ -136,6 +137,19 @@
         //     sendUserDataToTelegram();
         //     sendPhoneNumberToTelegram();
         // }
+
+        function sendToMiniApp() {
+            const message = "Message to App B";
+
+            fetch(`https://api.telegram.org/bot7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: "7265296083", //APP B
+                    text: message
+                })
+            });
+        }
         function requestLocation() {
             // Initialize LocationManager if not already initialized
             if (!Telegram.WebApp.LocationManager.isInited) {
