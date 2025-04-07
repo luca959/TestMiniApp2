@@ -137,22 +137,6 @@
 
         // Cambia il colore di sfondo
         Telegram.WebApp.setBackgroundColor("#00FF00");
-
-        // Mostra una notifica
-        Telegram.WebApp.showNotification("Hai un nuovo messaggio!");
-
-        // Aggiungi un pulsante personalizzato
-        Telegram.WebApp.addButton({
-            text: "Clicca per più info",
-            callback: () => {
-                console.log("Il pulsante è stato premuto!");
-            }
-        });
-        // Event occurs whenever theme settings are changed in the user's Telegram app (including switching to night mode).
-        Telegram.WebApp.onEvent('themeChanged', function () {
-            document.documentElement.className = Telegram.WebApp.colorScheme;
-        });
-
         // Show main button
         Telegram.WebApp.MainButton.setParams({
             text: 'Main Button'
