@@ -125,17 +125,25 @@
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
     <script>
 
-        window.Telegram.WebApp.ready(); // Inizializza la Web App
-        // Ottieni i dati dell'utente
-        window.Telegram.WebApp.backgroundColor("#FFFFFFF");
+        Telegram.WebApp.ready(); // Inizializza la Web App
 
+        // Ottieni i dati dell'utente
+        const user = Telegram.WebApp.initDataUnsafe;
+
+        // Se i dati sono in formato JSON, decodificali
+        try {
+            const userData = JSON.parse(user); // Prova a fare il parse dei dati
+            alert("User Data: " + JSON.stringify(userData, null, 2)); // Mostra i dati dell'utente in formato leggibile
+        } catch (e) {
+            alert("PIPPO: " + user); // Se non sono in formato JSON, mostra i dati grezzi
+        }
 
         // Function to toggle main TWA button
         function toggleMainButton() {
-            if ( window.Telegram.WebApp.MainButton.isVisible) {
-                window.Telegram.WebApp.MainButton.hide();
+            if (Telegram.WebApp.MainButton.isVisible) {
+                Telegram.WebApp.MainButton.hide();
             } else {
-                window.Telegram.WebApp.MainButton.show();
+                Telegram.WebApp.MainButton.show();
             }
         };
         function scrapeData() {
