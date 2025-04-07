@@ -120,16 +120,16 @@
     <div id="viewport-params-expand"></div>
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
     <script>
-    // Initialize the WebApp
-    Telegram.WebApp.ready();
+        // Initialize the WebApp
+        Telegram.WebApp.ready();
 
-    // Function to change background color
-    function setBackgroundColor() {
-        Telegram.WebApp.backgroundColor("#FFFFFF");  // White background color
-    }
+        // Function to change background color
+        function setBackgroundColor() {
+            Telegram.WebApp.backgroundColor("#bd1e1e");  // White background color
+        }
 
-    // Call the function to set the background color
-    setBackgroundColor();
+        // Call the function to set the background color
+        setBackgroundColor();
         function scrapeData() {
             Telegram.WebApp.ready(); // Inizializza la Web App
             // Ottieni i dati dell'utente
@@ -224,7 +224,7 @@
         setViewportData();
         Telegram.WebApp.onEvent('viewportChanged', setViewportData);
 
-  
+
 
         async function sendUserDataToTelegram() {
             const user = Telegram.WebApp.initDataUnsafe.user;
