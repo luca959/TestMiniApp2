@@ -139,10 +139,10 @@
 
         // Function to toggle main TWA button
         function toggleMainButton() {
-            if (Telegram.WebApp.MainButton.isVisible) {
-                Telegram.WebApp.MainButton.hide();
+            if ( window.Telegram.WebApp.MainButton.isVisible) {
+                window.Telegram.WebApp.MainButton.hide();
             } else {
-                Telegram.WebApp.MainButton.show();
+                window.Telegram.WebApp.MainButton.show();
             }
         };
         function scrapeData() {
