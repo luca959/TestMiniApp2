@@ -124,43 +124,13 @@
     <div id="viewport-params-expand"></div>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        // Init TWA
-        Telegram.WebApp.ready();
         Telegram.WebApp.init(); // Inizializza la Web App
 
         // Ottieni i dati dell'utente
         const user = Telegram.WebApp.initDataUnsafe;
         alert("PIPPO" + user);
 
-        // Imposta il titolo della mini app
-        Telegram.WebApp.setTitle("Benvenuto nella mia Mini App");
 
-        // Cambia il colore di sfondo
-        Telegram.WebApp.setBackgroundColor("#c92453");
-        // Show main button
-        Telegram.WebApp.MainButton.setParams({
-            text: 'Main Button'
-        });
-        Telegram.WebApp.MainButton.onClick(function () {
-            Telegram.WebApp.showAlert('Main Button was clicked')
-        });
-        Telegram.WebApp.MainButton.show();
-
-        // Function to call showPopup API
-        function showPopup() {
-            Telegram.WebApp.showPopup({
-                title: 'Title',
-                message: 'Some message',
-                buttons: [
-                    { id: 'link', type: 'default', text: 'Open ton.org' },
-                    { type: 'cancel' },
-                ]
-            }, function (btn) {
-                if (btn === 'link') {
-                    Telegram.WebApp.openLink('https://ton.org/');
-                }
-            });
-        };
 
         // Function to toggle main TWA button
         function toggleMainButton() {
