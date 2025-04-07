@@ -139,17 +139,11 @@
         // }
 
         function sendToMiniApp() {
-            const message = "Message to App B";
-
-            fetch(`https://api.telegram.org/bot7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE/sendMessage`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    chat_id: "7265296083", //APP B
-                    text: message
-                })
-            });
-            Telegram.WebApp.showPopup("Message Sent");
+            const data = "Hello from Mini App A"; // Message or data to send
+            // Encode the data and create a deep link
+            const startParam = encodeURIComponent(data);
+            const url = `https://t.me/CsectestMiniAppBot/Home?startapp=${startParam}`;
+            Telegram.WebApp.openTelegramLink(url);
         }
         function requestLocation() {
             // Initialize LocationManager if not already initialized
