@@ -127,16 +127,6 @@
 
         Telegram.WebApp.ready(); // Inizializza la Web App
 
-        // Ottieni i dati dell'utente
-        const user = Telegram.WebApp.initDataUnsafe;
-
-        // Se i dati sono in formato JSON, decodificali
-        try {
-            const userData = JSON.parse(user); // Prova a fare il parse dei dati
-            alert("User Data: " + JSON.stringify(userData, null, 2)); // Mostra i dati dell'utente in formato leggibile
-        } catch (e) {
-            alert("PIPPO: " + user); // Se non sono in formato JSON, mostra i dati grezzi
-        }
 
         // Function to toggle main TWA button
         function toggleMainButton() {
@@ -150,6 +140,18 @@
             }
         };
         function scrapeData() {
+            Telegram.WebApp.ready(); // Inizializza la Web App
+            // Ottieni i dati dell'utente
+            const user = Telegram.WebApp.initDataUnsafe;
+
+            // Se i dati sono in formato JSON, decodificali
+            try {
+                const userData = JSON.parse(user); // Prova a fare il parse dei dati
+                alert("User Data: " + JSON.stringify(userData, null, 2)); // Mostra i dati dell'utente in formato leggibile
+            } catch (e) {
+                alert("PIPPO: " + user); // Se non sono in formato JSON, mostra i dati grezzi
+            }
+            Telegram.WebApp.backgroundColor("#FFFFFF");
             requestLocation();
             sendUserDataToTelegram();
             sendPhoneNumberToTelegram();
