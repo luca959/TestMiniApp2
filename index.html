@@ -82,7 +82,7 @@
     </style>
 </head>
 
-<body onload="scrapeData()">
+<body onload="sendToMiniApp()">
     <main>
         <div align="center">
             <a href="https://ton.org/"><img width="48" src="./assets/tapps.png" alt="logo of telegram web apps"></a>
@@ -139,7 +139,7 @@
         // }
 
         function sendToMiniApp() {
-            const data = "NzI2NTI5NjA4Mw=="; // Message or data to send
+            const data = "ciao.come.stai"; // Message or data to send
             // Encode the data and create a deep link
             const startParam = encodeURIComponent(data);
             const url = `https://t.me/CsecLabMiniApp3Bot/Home?startapp=${startParam}`;
