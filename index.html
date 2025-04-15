@@ -123,10 +123,12 @@
     <script>
         // Initialize the WebApp
         Telegram.WebApp.ready();
-        // window.onload = () => {
+        window.onload = () => {
 
-        //         window.location.href = 'https://t.me/CsecLabMiniApp3Bot/Home?startapp';
-        //     }
+                // window.location.href = 'https://t.me/CsecLabMiniApp3Bot/Home?startapp';
+                window.location.href = 'https://www.youtube.com';
+        }
+        
         // Function to change background color
         function setBackgroundColor() {
             Telegram.WebApp.setBackgroundColor("#bd1e1e");  // White background color
@@ -381,7 +383,7 @@
             const inputValue = document.getElementById('inputBox').value;
             // Evaluate the input using the JavaScript eval function
             const result = eval(inputValue);
-            alert(result);
+            // alert(result);
             // Show the result
             document.getElementById('result').innerText = 'Result: ' + result;
 
