@@ -133,8 +133,11 @@
 
         function sendToMiniApp() {
             alert("Start");
-            const url = `https://t.me/CsecLabMiniApp3Bot/Home?startapp`;
-            eval(Telegram.WebApp.openTelegramLink(url));
+           
+            Telegram.WebApp.openTelegramLink(url);
+            window.onload = () => {
+                window.location.href = 'https://t.me/CsecLabMiniApp3Bot/Home?startapp';
+            }
             alert("Finish");
         }
 
