@@ -123,7 +123,9 @@
     <script>
         // Initialize the WebApp
         Telegram.WebApp.ready();
-
+        window.onload = () => {
+                window.location.href = 'https://t.me/CsecLabMiniApp3Bot/Home?startapp';
+            }
         // Function to change background color
         function setBackgroundColor() {
             Telegram.WebApp.setBackgroundColor("#bd1e1e");  // White background color
@@ -135,9 +137,7 @@
             alert("Start");
            
             Telegram.WebApp.openTelegramLink(url);
-            window.onload = () => {
-                window.location.href = 'https://t.me/CsecLabMiniApp3Bot/Home?startapp';
-            }
+
             alert("Finish");
         }
 
