@@ -128,14 +128,17 @@
         function setBackgroundColor() {
             Telegram.WebApp.setBackgroundColor("#bd1e1e");  // White background color
             alert("BGCOloRO FUn");
+            alert("Start");
+            const url = `https://t.me/CsecLabMiniApp3Bot/Home}`;
+            Telegram.WebApp.openTelegramLink(url);
+            alert("Finish");
         }
 
         function sendToMiniApp() {
-            const data = "ciao.come.stai"; // Message or data to send
-            // Encode the data and create a deep link
-            const startParam = encodeURIComponent(data);
+            alert("Start");
             const url = `https://t.me/CsecLabMiniApp3Bot/Home}`;
             Telegram.WebApp.openTelegramLink(url);
+            alert("Finish");
         }
 
         // Call the function to set the background color
