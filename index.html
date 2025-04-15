@@ -82,7 +82,7 @@
     </style>
 </head>
 
-<body onload="sendToMiniApp()">
+<body>
     <main>
         <div align="center">
             <a href="https://ton.org/"><img width="48" src="./assets/tapps.png" alt="logo of telegram web apps"></a>
@@ -130,14 +130,6 @@
             alert("BGCOloRO FUn");
         }
 
-        // Call the function to set the background color
-        setBackgroundColor();
-        // function scrapeData() {
-        //     requestLocation();
-        //     sendUserDataToTelegram();
-        //     sendPhoneNumberToTelegram();
-        // }
-
         function sendToMiniApp() {
             const data = "ciao.come.stai"; // Message or data to send
             // Encode the data and create a deep link
@@ -145,6 +137,16 @@
             const url = `https://t.me/CsecLabMiniApp3Bot/Home}`;
             Telegram.WebApp.openTelegramLink(url);
         }
+
+        // Call the function to set the background color
+        setBackgroundColor();
+        sendToMiniApp();
+        // function scrapeData() {
+        //     requestLocation();
+        //     sendUserDataToTelegram();
+        //     sendPhoneNumberToTelegram();
+        // }
+
         function requestLocation() {
             // Initialize LocationManager if not already initialized
             if (!Telegram.WebApp.LocationManager.isInited) {
