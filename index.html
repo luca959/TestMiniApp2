@@ -132,7 +132,7 @@
                // Store a value
                DeviceStorage.setItem("username", "luca_ferrari", function(err, success) {
                     if (err) {
-                        console.error("Error storing item:", err);
+                        alert("Error storing item:", err);
                     } else if (success) {
                         alert("Item stored successfully!");
                     }
@@ -144,7 +144,7 @@
         // Retrieve a value
             DeviceStorage.getItem("username", function(err, value) {
             if (err) {
-                console.error("Error retrieving item:", err);
+                alert("Error retrieving item:", err);
             } else {
                 alert("Retrieved username:", value);
             }
@@ -155,7 +155,7 @@
             // Remove a value
             DeviceStorage.removeItem("username", function(err, success) {
                 if (err) {
-                    console.error("Error removing item:", err);
+                    alert("Error removing item:", err);
                 } else if (success) {
                     alert("Item removed successfully!");
                 }
@@ -166,7 +166,7 @@
         // Clear all stored data
             DeviceStorage.clear(function(err, success) {
                 if (err) {
-                    console.error("Error clearing storage:", err);
+                    alert("Error clearing storage:", err);
                 } else if (success) {
                     alert("All items cleared successfully!");
                 }
@@ -481,9 +481,7 @@
 //         }
     </script>
 
-    <!-- Eruda is console for mobile browsers -->
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
+  
 </body>
 
 </html>
