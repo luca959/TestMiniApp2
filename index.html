@@ -7,7 +7,7 @@
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Telegram Mini Apps Vanilla JS Sample App</title>
-    <script src="https://telegram.org/js/telegram-web-app.js?57"></script>
+    <script src="telegramSDK.js"></script>
     <style>
         body {
             font: 12px/18px "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
@@ -127,83 +127,54 @@
     <script>
         // Initialize the WebApp
         Telegram.WebApp.ready();
-        function sessionStorageSet(key, value) {
-            try {
-                window.sessionStorage.setItem('__telegram__' + key, JSON.stringify(value));
-                return true;
-            } catch (e) { }
-            return false;
+        
+        const DeviceStorage=Telegram.WebApp.DeviceStorage;
+        function storage(){
+               // Store a value
+               DeviceStorage.setItem("username", "luca_ferrari", function(err, success) {
+                    if (err) {
+                        console.error("Error storing item:", err);
+                    } else if (success) {
+                        alert("Item stored successfully!");
+                    }
+                    });
         }
+ 
 
-        function sessionStorageGet(key) {
-            try {
-                return JSON.parse(window.sessionStorage.getItem('__telegram__' + key));
-            } catch (e) { }
-            return null;
-        }
-
-        var appTgVersion = 9.0;
-
-        var initParams = sessionStorageGet('initParams');
-        if (initParams) {
-            if (!initParams.tgWebAppVersion) {
-                initParams.tgWebAppVersion = appTgVersion;
+        function getItem(){
+        // Retrieve a value
+            DeviceStorage.getItem("username", function(err, value) {
+            if (err) {
+                console.error("Error retrieving item:", err);
+            } else {
+                alert("Retrieved username:", value);
             }
-        } else {
-            initParams = {
-                tgWebAppVersion: appTgVersion
-            };
-            console.log("miao");
-        }
-
-        sessionStorageSet('initParams', initParams);
-        const DeviceStorage = Telegram.WebApp.DeviceStorage;
-        function storage() {
-            // Store a value
-            DeviceStorage.setItem("username", "luca_ferrari", function (err, success) {
-                if (err) {
-                    console.error("Error storing item:", err);
-                } else if (success) {
-                    alert("Item stored successfully!");
-                }
             });
         }
 
-
-        function getItem() {
-            // Retrieve a value
-            DeviceStorage.getItem("username", function (err, value) {
-                if (err) {
-                    console.error("Error retrieving item:", err);
-                } else {
-                    alert("Retrieved username:", value);
-                }
-            });
-        }
-
-        function remove() {
+        function remove(){
             // Remove a value
-            DeviceStorage.removeItem("username", function (err, success) {
+            DeviceStorage.removeItem("username", function(err, success) {
                 if (err) {
                     console.error("Error removing item:", err);
                 } else if (success) {
                     alert("Item removed successfully!");
                 }
-            });
+                });
         }
-
-        function removeAll() {
-            // Clear all stored data
-            DeviceStorage.clear(function (err, success) {
+   
+        function removeAll(){
+        // Clear all stored data
+            DeviceStorage.clear(function(err, success) {
                 if (err) {
                     console.error("Error clearing storage:", err);
                 } else if (success) {
                     alert("All items cleared successfully!");
                 }
-            });
-        }
+        });
+    }
 
-
+ 
     </script>
 
     <!-- Eruda is console for mobile browsers -->
