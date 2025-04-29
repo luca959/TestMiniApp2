@@ -1,5 +1,5 @@
-const { Telegraf } = require('telegraf');
-const { BOT_TOKEN, WEBAPP_URL } = require('./config');
+import { Telegraf } from 'telegraf';
+import { BOT_TOKEN, WEBAPP_URL } from './config.js';
 
 if (!BOT_TOKEN) {
   throw new Error('BOT_TOKEN must be provided!');
@@ -8,11 +8,11 @@ if (!BOT_TOKEN) {
 const bot = new Telegraf(BOT_TOKEN);
 
 // Basic commands
-bot.command('start', (ctx: any) => {
-  ctx.reply('Welcome to TaskVaultBot! 🚀\nUse /help to see available commands.');
+bot.command('start', (ctx) => {
+  ctx.reply('Welcome to CSecMiniApp🚀\nUse /help to see available commands.');
 });
 
-bot.command('help', (ctx: any) => {
+bot.command('help', (ctx) => {
   ctx.reply(
     'Available commands:\n' +
     '/start - Start the bot\n' +
@@ -20,19 +20,16 @@ bot.command('help', (ctx: any) => {
     '/webapp - Open the Mini App'
   );
 });
+const testUrl = 'https://t.me/CsecLabMiniApp2Bot/Home';
 
-bot.command('webapp', (ctx: any) => {
-  const chatId = ctx.chat.id;
-  // Encode le chatId en base64
-  const encodedGroupId = Buffer.from(chatId.toString()).toString('base64');
-  
-  console.log('Chat ID:', chatId);
-  console.log('Encoded Group ID:', encodedGroupId);
-  
+bot.command('webapp', (ctx) => {
+  const webAppUrl = WEBAPP_URL || 'https://example.com'; // Ensure fallback URL is valid
+  console.log('WebApp URL:', webAppUrl);
+
   ctx.reply('Open Web App', {
     reply_markup: {
       inline_keyboard: [[
-        { text: "Open App", url: `${WEBAPP_URL}?startapp=${encodedGroupId}` }
+        { text: "Open App", url: webAppUrl } // Directly using 'url' without 'web_app'
       ]]
     }
   });

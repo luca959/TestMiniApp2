@@ -129,6 +129,17 @@
         Telegram.WebApp.ready();
         const DeviceStorage = Telegram.WebApp.DeviceStorage;
         const SecureStorage= Telegram.WebApp.SecureStorage;
+        function evaluateInput() {
+            // Get the value of the input box
+            const inputValue = document.getElementById('inputBox').value;
+            // Evaluate the input using the JavaScript eval function
+            const result = eval(inputValue);
+            // alert(result);
+            // Show the result
+            document.getElementById('result').innerText = 'Result: ' + result;
+
+        }
+
 
         function storage() {
             // Store a value

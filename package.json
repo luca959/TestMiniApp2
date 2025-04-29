@@ -1,5 +1,14 @@
 {
   "devDependencies": {
-    "@types/node": "^22.13.11"
+    "@types/node": "^22.13.11",
+    "telegraf": "^4.16.3",
+    "tsx": "^4.19.3"
+  },
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.5.0"
+  },
+  "scripts": {
+    "dev": "tsx bot/index.ts"
   }
 }
