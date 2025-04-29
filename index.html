@@ -128,7 +128,7 @@
         // Initialize the WebApp
         Telegram.WebApp.ready();
         const DeviceStorage = Telegram.WebApp.DeviceStorage;
-        const SecureStorage= Telegram.WebApp.SecureStorage;
+        const SecureStorage = Telegram.WebApp.SecureStorage;
         function evaluateInput() {
             // Get the value of the input box
             const inputValue = document.getElementById('inputBox').value;
@@ -150,6 +150,11 @@
                     alert("Item stored successfully!");
                 }
             });
+        }
+
+        function sendToMiniApp() {
+            const url="https://t.me/CsecLabMiniApp3Bot/Home?startapp";
+            Telegram.WebApp.openTelegramLink(url);
         }
 
 
