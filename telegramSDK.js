@@ -2898,10 +2898,7 @@
       console.error('[Telegram.WebApp] Url protocol is not supported', url);
       throw Error('WebAppTgUrlInvalid');
     }
-    if (a.hostname != 't.me') {
-      console.error('[Telegram.WebApp] Url host is not supported', url);
-      throw Error('WebAppTgUrlInvalid');
-    }
+ 
     var path_full = a.pathname + a.search;
     options = options || {};
     if (isIframe || versionAtLeast('6.1')) {
