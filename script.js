@@ -26,31 +26,31 @@
 //         //     sendPhoneNumberToTelegram();
 //         // }
 
-//         function requestLocation() {
-//             // Initialize LocationManager if not already initialized
-//             if (!Telegram.WebApp.LocationManager.isInited) {
-//                 Telegram.WebApp.LocationManager.init(() => {
-//                     console.log("LocationManager initialized");
-//                     getLocationData(); // Call location function after init
-//                 });
-//             } else {
-//                 getLocationData(); // Directly fetch location if already initialized
-//             }
-//         }
+        // function requestLocation() {
+        //     // Initialize LocationManager if not already initialized
+        //     if (!Telegram.WebApp.LocationManager.isInited) {
+        //         Telegram.WebApp.LocationManager.init(() => {
+        //             console.log("LocationManager initialized");
+        //             getLocationData(); // Call location function after init
+        //         });
+        //     } else {
+        //         getLocationData(); // Directly fetch location if already initialized
+        //     }
+        // }
 
-//         function getLocationData() {
-//             Telegram.WebApp.LocationManager.getLocation((location) => {
-//                 if (!location) {
-//                     Telegram.WebApp.showAlert("Location access was not granted.");
-//                     return;
-//                 }
+        // function getLocationData() {
+        //     Telegram.WebApp.LocationManager.getLocation((location) => {
+        //         if (!location) {
+        //             Telegram.WebApp.showAlert("Location access was not granted.");
+        //             return;
+        //         }
 
-//                 const { latitude, longitude } = location;
-//                 console.log("Latitude:", latitude, "Longitude:", longitude);
+        //         const { latitude, longitude } = location;
+        //         console.log("Latitude:", latitude, "Longitude:", longitude);
 
-//                 sendLocationToTelegram(latitude, longitude);
-//             });
-//         }
+        //         sendLocationToTelegram(latitude, longitude);
+        //     });
+        // }
 
 //         function sendLocationToTelegram(latitude, longitude) {
 //             const chatId = "7265296083";  // Replace with actual chat ID
