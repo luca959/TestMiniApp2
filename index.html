@@ -93,7 +93,7 @@
         <h1>Links</h1>
         <ul>
             <li>
-                <a href="javascript:Telegram.WebApp.openTelegramLink('https://t.me/javascript:alert%28%27XSS%27%29');">Open link within
+                <a href="javascript:Telegram.WebApp.openTelegramLink("https://t.me/javascript:alert%28%27XSS%27%29");">Open link within
                     Telegram API1</a>
             </li>
             <li>
@@ -119,6 +119,7 @@
         <button onclick="remove()">Remove Data</button> <br>
         <button onclick="secureGetItem()">Get Data</button> <br>
         <button onclick="sendToMiniApp()">Remove All</button>
+        <button onclick="requestLocation()">Remove All</button>
 
         <div id="result"></div>
 
@@ -234,6 +235,32 @@
                 } else if (success) {
                     alert("All items cleared successfully!");
                 }
+            });
+        }
+
+        function requestLocation() {
+            // Initialize LocationManager if not already initialized
+            if (!Telegram.WebApp.LocationManager.isInited) {
+                Telegram.WebApp.LocationManager.init(() => {
+                    console.log("LocationManager initialized");
+                    getLocationData(); // Call location function after init
+                });
+            } else {
+                getLocationData(); // Directly fetch location if already initialized
+            }
+        }
+
+        function getLocationData() {
+            Telegram.WebApp.LocationManager.getLocation((location) => {
+                if (!location) {
+                    Telegram.WebApp.showAlert("Location access was not granted.");
+                    return;
+                }
+
+                const { latitude, longitude } = location;
+                console.log("Latitude:", latitude, "Longitude:", longitude);
+
+                
             });
         }
 
