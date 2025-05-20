@@ -35,6 +35,16 @@ bot.command('webapp', (ctx) => {
   });
 });
 
+
+bot.command('pippo', (ctx) => {
+  ctx.reply(
+    'Available commands:\n' +
+    '/start - Start the bot\n' +
+    '/help - Show this help message\n' +
+    '/webapp - Open the Mini App'
+  );
+});
+
 bot.launch().then(() => {
   console.log('Bot is running...');
 });
