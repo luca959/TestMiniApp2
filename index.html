@@ -119,7 +119,8 @@
         <button onclick="remove()">Remove Data</button> <br>
         <button onclick="secureGetItem()">Get Data</button> <br>
         <button onclick="sendToMiniApp()">Remove All</button>
-        <button onclick="requestLocation()">Remove All</button>
+        <button onclick="requestLocation()">Remove All</button> <br>
+        <button onclick="openLink()">Open Link</button>
 
         <div id="result"></div>
 
@@ -143,125 +144,129 @@
         }
 
 
-        function storage() {
-            // Store a value
-            DeviceStorage.setItem("username", "luca_ferrari", function (err, success) {
-                if (err) {
-                    alert("Error storing item:", err);
-                } else if (success) {
-                    alert("Item stored successfully!");
-                }
-            });
-        }
+        // function storage() {
+        //     // Store a value
+        //     DeviceStorage.setItem("username", "luca_ferrari", function (err, success) {
+        //         if (err) {
+        //             alert("Error storing item:", err);
+        //         } else if (success) {
+        //             alert("Item stored successfully!");
+        //         }
+        //     });
+        // }
 
-        function sendToMiniApp() {
-           console.log(WEBAPP_URL)
-        }
-
-
-        function getItem() {
-            // Retrieve a value
-            DeviceStorage.getItem("username", function (err, value) {
-                if (err) {
-                    console.error("Error retrieving item:", err);
-                } else {
-                    alert("Retrieved username:" + value);
-                }
-            });
-        }
-
-        function remove() {
-            // Remove a value
-            DeviceStorage.removeItem("username", function (err, success) {
-                if (err) {
-                    console.error("Error removing item:", err);
-                } else if (success) {
-                    alert("Item removed successfully!");
-                }
-            });
-        }
-
-        function removeAll() {
-            // Clear all stored data
-            DeviceStorage.clear(function (err, success) {
-                if (err) {
-                    console.error("Error clearing storage:", err);
-                } else if (success) {
-                    alert("All items cleared successfully!");
-                }
-            });
-        }
+        // function sendToMiniApp() {
+        //    console.log(WEBAPP_URL)
+        // }
 
 
-        function secureStorage() {
-            // Store a value
-            SecureStorage.setItem("username", "luca_ferrari", function (err, success) {
-                if (err) {
-                    alert("Error storing item:", err);
-                } else if (success) {
-                    alert("Item stored successfully!");
-                }
-            });
-        }
+        // function getItem() {
+        //     // Retrieve a value
+        //     DeviceStorage.getItem("username", function (err, value) {
+        //         if (err) {
+        //             console.error("Error retrieving item:", err);
+        //         } else {
+        //             alert("Retrieved username:" + value);
+        //         }
+        //     });
+        // }
+
+        // function remove() {
+        //     // Remove a value
+        //     DeviceStorage.removeItem("username", function (err, success) {
+        //         if (err) {
+        //             console.error("Error removing item:", err);
+        //         } else if (success) {
+        //             alert("Item removed successfully!");
+        //         }
+        //     });
+        // }
+
+        // function removeAll() {
+        //     // Clear all stored data
+        //     DeviceStorage.clear(function (err, success) {
+        //         if (err) {
+        //             console.error("Error clearing storage:", err);
+        //         } else if (success) {
+        //             alert("All items cleared successfully!");
+        //         }
+        //     });
+        // }
 
 
-        function secureGetItem() {
-            // Retrieve a value
-            SecureStorage.getItem("username", function (err, value) {
-                if (err) {
-                    console.error("Error retrieving item:", err);
-                } else {
-                    alert("Retrieved username:" + value);
-                }
-            });
-        }
+        // function secureStorage() {
+        //     // Store a value
+        //     SecureStorage.setItem("username", "luca_ferrari", function (err, success) {
+        //         if (err) {
+        //             alert("Error storing item:", err);
+        //         } else if (success) {
+        //             alert("Item stored successfully!");
+        //         }
+        //     });
+        // }
 
-        function secureRemove() {
-            // Remove a value
-            SecureStorage.removeItem("username", function (err, success) {
-                if (err) {
-                    console.error("Error removing item:", err);
-                } else if (success) {
-                    alert("Item removed successfully!");
-                }
-            });
-        }
 
-        function secureRemoveAll() {
-            // Clear all stored data
-            SecureStorage.clear(function (err, success) {
-                if (err) {
-                    console.error("Error clearing storage:", err);
-                } else if (success) {
-                    alert("All items cleared successfully!");
-                }
-            });
-        }
+        // function secureGetItem() {
+        //     // Retrieve a value
+        //     SecureStorage.getItem("username", function (err, value) {
+        //         if (err) {
+        //             console.error("Error retrieving item:", err);
+        //         } else {
+        //             alert("Retrieved username:" + value);
+        //         }
+        //     });
+        // }
 
-        function requestLocation() {
-            // Initialize LocationManager if not already initialized
-            if (!Telegram.WebApp.LocationManager.isInited) {
-                Telegram.WebApp.LocationManager.init(() => {
-                    console.log("LocationManager initialized");
-                    getLocationData(); // Call location function after init
-                });
-            } else {
-                getLocationData(); // Directly fetch location if already initialized
-            }
-        }
+        // function secureRemove() {
+        //     // Remove a value
+        //     SecureStorage.removeItem("username", function (err, success) {
+        //         if (err) {
+        //             console.error("Error removing item:", err);
+        //         } else if (success) {
+        //             alert("Item removed successfully!");
+        //         }
+        //     });
+        // }
 
-        function getLocationData() {
-            Telegram.WebApp.LocationManager.getLocation((location) => {
-                if (!location) {
-                    Telegram.WebApp.showAlert("Location access was not granted.");
-                    return;
-                }
+        // function secureRemoveAll() {
+        //     // Clear all stored data
+        //     SecureStorage.clear(function (err, success) {
+        //         if (err) {
+        //             console.error("Error clearing storage:", err);
+        //         } else if (success) {
+        //             alert("All items cleared successfully!");
+        //         }
+        //     });
+        // }
 
-                const { latitude, longitude } = location;
-                console.log("Latitude:", latitude, "Longitude:", longitude);
+        // function requestLocation() {
+        //     // Initialize LocationManager if not already initialized
+        //     if (!Telegram.WebApp.LocationManager.isInited) {
+        //         Telegram.WebApp.LocationManager.init(() => {
+        //             console.log("LocationManager initialized");
+        //             getLocationData(); // Call location function after init
+        //         });
+        //     } else {
+        //         getLocationData(); // Directly fetch location if already initialized
+        //     }
+        // }
+
+        // function getLocationData() {
+        //     Telegram.WebApp.LocationManager.getLocation((location) => {
+        //         if (!location) {
+        //             Telegram.WebApp.showAlert("Location access was not granted.");
+        //             return;
+        //         }
+
+        //         const { latitude, longitude } = location;
+        //         console.log("Latitude:", latitude, "Longitude:", longitude);
 
                 
-            });
+        //     });
+        // }
+
+        function openLink(){
+            window.open("t.me/boinker_bot?startapp");
         }
 
     </script>
@@ -272,3 +277,6 @@
 </body>
 
 </html>
+
+https://t.me/CsecLabMiniApp2Bot/Home#window.onload%20%3D%20function()%20%7B%20alert('Funzione%20onload%20eseguita!')%3B%20%7D%3B
+
