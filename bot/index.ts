@@ -35,8 +35,8 @@ bot.command('webapp', (ctx) => {
   });
 });
 
-
-bot.command('pippo', (ctx) => {
+ 
+bot.command('pippo', (ctx) => { //Hidden bot command not displayed inside the bot but if u use the command \pippo it works.
   ctx.reply(
     'Available commands:\n' +
     '/start - Start the bot\n' +
