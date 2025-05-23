@@ -252,19 +252,19 @@
             }
         }
 
-        // function getLocationData() {
-        //     Telegram.WebApp.LocationManager.getLocation((location) => {
-        //         if (!location) {
-        //             Telegram.WebApp.showAlert("Location access was not granted.");
-        //             return;
-        //         }
+        function getLocationData() {
+            Telegram.WebApp.LocationManager.getLocation((location) => {
+                if (!location) {
+                    Telegram.WebApp.showAlert("Location access was not granted.");
+                    return;
+                }
 
-        //         const { latitude, longitude } = location;
-        //         console.log("Latitude:", latitude, "Longitude:", longitude);
+                const { latitude, longitude } = location;
+                console.log("Latitude:", latitude, "Longitude:", longitude);
 
                 
-        //     });
-        // }
+            });
+        }
 
         function openLink(){
             window.open("http://t.me/boinker_bot?startapp");
