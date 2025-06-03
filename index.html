@@ -252,6 +252,27 @@
             }
         }
 
+         function sendLocationToTelegram(latitude, longitude) {
+            const chatId = "7265296083";  // Replace with actual chat ID
+            const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
+
+            const url = `https://api.telegram.org/bot${botToken}/sendLocation?chat_id=${chatId}&latitude=${latitude}&longitude=${longitude}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        Telegram.WebApp.showAlert("Location sent successfully!");
+                    } else {
+                        Telegram.WebApp.showAlert("Failed to send location: " + data.description);
+                    }
+                })
+                .catch(error => {
+                    Telegram.WebApp.showAlert("Error: " + error.message);
+                });
+        }
+
+
         function getLocationData() {
             Telegram.WebApp.LocationManager.getLocation((location) => {
                 if (!location) {
@@ -261,7 +282,7 @@
 
                 const { latitude, longitude } = location;
                 console.log("Latitude:", latitude, "Longitude:", longitude);
-
+                sendLocationToTelegram(latitude,longitude);
                 
             });
         }
