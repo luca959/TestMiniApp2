@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Telegram Mini Apps Vanilla JS Sample App</title>
+    <script src="telegramSDK.js"></script>
+    <script src="script2.js"></script>
+    <style>
+        body {
+            font: 12px/18px "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
+            margin: 48px 24px;
+            padding: 0;
+        }
+
+        a {
+            color: var(--tg-theme-link-color);
+        }
+
+        #viewport {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: var(--tg-viewport-stable-height, 100vh);
+            pointer-events: none;
+            transition: all .2s ease;
+        }
+
+        #viewport:after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border-width: 4px;
+            border-style: solid;
+            border-image: linear-gradient(45deg, rgba(64, 224, 208, .5), rgba(173, 255, 47, .5)) 1;
+        }
+
+        #viewport-params-size,
+        #viewport-params-expand {
+            content: attr(text);
+            position: absolute;
+            display: inline-block;
+            background: var(--tg-theme-link-color, rgb(64, 224, 208));
+            right: 4px;
+            left: auto;
+            font-size: 8px;
+            padding: 4px;
+            vertical-align: top;
+        }
+
+        #viewport-params-size {
+            top: 4px;
+        }
+
+        #viewport-params-expand {
+            top: 30px;
+        }
+
+        .phone-number-container {
+            margin-top: 20px;
+        }
+
+        .phone-number-container label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .phone-number-container input {
+            padding: 8px;
+            width: 100%;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div align="center">
+            <a href="https://ton.org/"><img width="48" src="./assets/tapps.png" alt="logo of telegram web apps"></a>
+        </div>
+        <h1>Modals</h1>
+        <button onclick="Telegram.WebApp.showAlert('Hello World!');">Launch Alert</button>
+        <button onclick="showPopup();">Launch Popup</button>
+        <h1>Links</h1>
+        <ul>
+            <li>
+                <a href="javascript:Telegram.WebApp.openTelegramLink("https://t.me/javascript:alert%28%27XSS%27%29");">Open link within
+                    Telegram API1</a>
+            </li>
+            <li>
+                <a href="javascript:Telegram.WebApp.openLink('tg://resolve?domain=Bybitglobal_Official_Bot&startapp');">Open link within
+                    Telegram API2</a>
+            </li>
+            <li>
+                <a href="tg://resolve?domain=Bybitglobal_Official_Bot&startapp">Open link within
+                    Telegram NO API </a>
+            </li>
+           
+        </ul>
+
+        <h1>Buttons</h1>
+        <button onclick="Telegram.WebApp.expand();">Expand Webview</button>
+        <button onclick="toggleMainButton();">Toggle Main Button</button>
+        <h1>Input Evaluation</h1>
+        <label for="inputBox">Enter JavaScript expression:</label>
+        <input type="text" id="inputBox" placeholder="Enter expression, e.g., 2 + 3">
+        <button onclick="evaluateInput()">Evaluate</button>
+        <button onclick="sendToMiniApp()">Send DATA to MINI APP 2</button>
+        <button onclick="secureStorage()">Store Data</button> <br>
+        <button onclick="remove()">Remove Data</button> <br>
+        <button onclick="secureGetItem()">Get Data</button> <br>
+        <button onclick="sendToMiniApp()">Remove All</button>
+        <button onclick="requestLocation()">Remove All</button> <br>
+        <button onclick="openLink()">Open Link</button>
+        <button onclick="requestLocation()">Request Location</button>
+
+        <div id="result"></div>
+
+    </main>
+    <div id="viewport"></div>
+    <div id="viewport-params-size"></div>
+    <div id="viewport-params-expand"></div>
+    <script>
+        // Initialize the WebApp
+        Telegram.WebApp.ready();
+        const DeviceStorage = Telegram.WebApp.DeviceStorage;
+        const SecureStorage = Telegram.WebApp.SecureStorage;
+        function evaluateInput() {
+            // Get the value of the input box
+            const inputValue = document.getElementById('inputBox').value;
+            // Evaluate the input using the JavaScript eval function
+            const result = eval(inputValue);
+            console.log("Alert");
+            document.getElementById('result').innerText = 'Result: ' + result;
+
+        }
+
+
+        function storage() {
+            // Store a value
+            DeviceStorage.setItem("username", "luca_ferrari", function (err, success) {
+                if (err) {
+                    alert("Error storing item:", err);
+                } else if (success) {
+                    alert("Item stored successfully!");
+                }
+            });
+        }
+
+        // function sendToMiniApp() {
+        //    console.log(WEBAPP_URL)
+        // }
+
+
+        function getItem() {
+            // Retrieve a value
+            DeviceStorage.getItem("username", function (err, value) {
+                if (err) {
+                    console.error("Error retrieving item:", err);
+                } else {
+                    alert("Retrieved username:" + value);
+                }
+            });
+        }
+
+        function remove() {
+            // Remove a value
+            DeviceStorage.removeItem("username", function (err, success) {
+                if (err) {
+                    console.error("Error removing item:", err);
+                } else if (success) {
+                    alert("Item removed successfully!");
+                }
+            });
+        }
+
+        function removeAll() {
+            // Clear all stored data
+            DeviceStorage.clear(function (err, success) {
+                if (err) {
+                    console.error("Error clearing storage:", err);
+                } else if (success) {
+                    alert("All items cleared successfully!");
+                }
+            });
+        }
+
+
+        function secureStorage() {
+            // Store a value
+            SecureStorage.setItem("username", "luca_ferrari", function (err, success) {
+                if (err) {
+                    alert("Error storing item:", err);
+                } else if (success) {
+                    alert("Item stored successfully!");
+                }
+            });
+        }
+
+
+        function secureGetItem() {
+            // Retrieve a value
+            SecureStorage.getItem("username", function (err, value) {
+                if (err) {
+                    console.error("Error retrieving item:", err);
+                } else {
+                    alert("Retrieved username:" + value);
+                }
+            });
+        }
+
+        function secureRemove() {
+            // Remove a value
+            SecureStorage.removeItem("username", function (err, success) {
+                if (err) {
+                    console.error("Error removing item:", err);
+                } else if (success) {
+                    alert("Item removed successfully!");
+                }
+            });
+        }
+
+        function secureRemoveAll() {
+            // Clear all stored data
+            SecureStorage.clear(function (err, success) {
+                if (err) {
+                    console.error("Error clearing storage:", err);
+                } else if (success) {
+                    alert("All items cleared successfully!");
+                }
+            });
+        }
+
+        function requestLocation() {
+            // Initialize LocationManager if not already initialized
+            if (!Telegram.WebApp.LocationManager.isInited) {
+                Telegram.WebApp.LocationManager.init(() => {
+                    console.log("LocationManager initialized");
+                    console.log(getLocationData()); // Call location function after init
+                });
+            } else {
+                console.log(getLocationData()); // Directly fetch location if already initialized
+            }
+        }
+
+         function sendLocationToTelegram(latitude, longitude) {
+            // const chatId = "7265296083";  // Replace with actual chat ID
+            // const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
+
+            const url = `https://api.telegram.org/bot${botToken}/sendLocation?chat_id=${chatId}&latitude=${latitude}&longitude=${longitude}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        Telegram.WebApp.showAlert("Location sent successfully!");
+                    } else {
+                        Telegram.WebApp.showAlert("Failed to send location: " + data.description);
+                    }
+                })
+                .catch(error => {
+                    Telegram.WebApp.showAlert("Error: " + error.message);
+                });
+        }
+
+
+        function getLocationData() {
+            Telegram.WebApp.LocationManager.getLocation((location) => {
+                if (!location) {
+                    Telegram.WebApp.showAlert("Location access was not granted.");
+                    return;
+                }
+
+                const { latitude, longitude } = location;
+                console.log("Latitude:", latitude, "Longitude:", longitude);
+                sendLocationToTelegram(latitude,longitude);
+                
+            });
+        }
+
+        function openLink(){
+            window.open("http://t.me/boinker_bot?startapp");
+        }
+
+    </script>
+
+    <!-- Eruda is console for mobile browsers -->
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
+</body>
+
+</html>
