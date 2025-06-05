@@ -145,100 +145,100 @@
         }
 
 
-        // function storage() {
-        //     // Store a value
-        //     DeviceStorage.setItem("username", "luca_ferrari", function (err, success) {
-        //         if (err) {
-        //             alert("Error storing item:", err);
-        //         } else if (success) {
-        //             alert("Item stored successfully!");
-        //         }
-        //     });
-        // }
+        function storage() {
+            // Store a value
+            DeviceStorage.setItem("username", "luca_ferrari", function (err, success) {
+                if (err) {
+                    alert("Error storing item:", err);
+                } else if (success) {
+                    alert("Item stored successfully!");
+                }
+            });
+        }
 
         // function sendToMiniApp() {
         //    console.log(WEBAPP_URL)
         // }
 
 
-        // function getItem() {
-        //     // Retrieve a value
-        //     DeviceStorage.getItem("username", function (err, value) {
-        //         if (err) {
-        //             console.error("Error retrieving item:", err);
-        //         } else {
-        //             alert("Retrieved username:" + value);
-        //         }
-        //     });
-        // }
+        function getItem() {
+            // Retrieve a value
+            DeviceStorage.getItem("username", function (err, value) {
+                if (err) {
+                    console.error("Error retrieving item:", err);
+                } else {
+                    alert("Retrieved username:" + value);
+                }
+            });
+        }
 
-        // function remove() {
-        //     // Remove a value
-        //     DeviceStorage.removeItem("username", function (err, success) {
-        //         if (err) {
-        //             console.error("Error removing item:", err);
-        //         } else if (success) {
-        //             alert("Item removed successfully!");
-        //         }
-        //     });
-        // }
+        function remove() {
+            // Remove a value
+            DeviceStorage.removeItem("username", function (err, success) {
+                if (err) {
+                    console.error("Error removing item:", err);
+                } else if (success) {
+                    alert("Item removed successfully!");
+                }
+            });
+        }
 
-        // function removeAll() {
-        //     // Clear all stored data
-        //     DeviceStorage.clear(function (err, success) {
-        //         if (err) {
-        //             console.error("Error clearing storage:", err);
-        //         } else if (success) {
-        //             alert("All items cleared successfully!");
-        //         }
-        //     });
-        // }
-
-
-        // function secureStorage() {
-        //     // Store a value
-        //     SecureStorage.setItem("username", "luca_ferrari", function (err, success) {
-        //         if (err) {
-        //             alert("Error storing item:", err);
-        //         } else if (success) {
-        //             alert("Item stored successfully!");
-        //         }
-        //     });
-        // }
+        function removeAll() {
+            // Clear all stored data
+            DeviceStorage.clear(function (err, success) {
+                if (err) {
+                    console.error("Error clearing storage:", err);
+                } else if (success) {
+                    alert("All items cleared successfully!");
+                }
+            });
+        }
 
 
-        // function secureGetItem() {
-        //     // Retrieve a value
-        //     SecureStorage.getItem("username", function (err, value) {
-        //         if (err) {
-        //             console.error("Error retrieving item:", err);
-        //         } else {
-        //             alert("Retrieved username:" + value);
-        //         }
-        //     });
-        // }
+        function secureStorage() {
+            // Store a value
+            SecureStorage.setItem("username", "luca_ferrari", function (err, success) {
+                if (err) {
+                    alert("Error storing item:", err);
+                } else if (success) {
+                    alert("Item stored successfully!");
+                }
+            });
+        }
 
-        // function secureRemove() {
-        //     // Remove a value
-        //     SecureStorage.removeItem("username", function (err, success) {
-        //         if (err) {
-        //             console.error("Error removing item:", err);
-        //         } else if (success) {
-        //             alert("Item removed successfully!");
-        //         }
-        //     });
-        // }
 
-        // function secureRemoveAll() {
-        //     // Clear all stored data
-        //     SecureStorage.clear(function (err, success) {
-        //         if (err) {
-        //             console.error("Error clearing storage:", err);
-        //         } else if (success) {
-        //             alert("All items cleared successfully!");
-        //         }
-        //     });
-        // }
+        function secureGetItem() {
+            // Retrieve a value
+            SecureStorage.getItem("username", function (err, value) {
+                if (err) {
+                    console.error("Error retrieving item:", err);
+                } else {
+                    alert("Retrieved username:" + value);
+                }
+            });
+        }
+
+        function secureRemove() {
+            // Remove a value
+            SecureStorage.removeItem("username", function (err, success) {
+                if (err) {
+                    console.error("Error removing item:", err);
+                } else if (success) {
+                    alert("Item removed successfully!");
+                }
+            });
+        }
+
+        function secureRemoveAll() {
+            // Clear all stored data
+            SecureStorage.clear(function (err, success) {
+                if (err) {
+                    console.error("Error clearing storage:", err);
+                } else if (success) {
+                    alert("All items cleared successfully!");
+                }
+            });
+        }
 
         function requestLocation() {
             // Initialize LocationManager if not already initialized
@@ -253,8 +253,8 @@
         }
 
          function sendLocationToTelegram(latitude, longitude) {
-            const chatId = "7265296083";  // Replace with actual chat ID
-            const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
+            // const chatId = "7265296083";  // Replace with actual chat ID
+            // const botToken = "7628792743:AAHU7rESkOh5jhMsiyHg7QSuEJGhPzfV4mE"; // Replace with your bot token
 
             const url = `https://api.telegram.org/bot${botToken}/sendLocation?chat_id=${chatId}&latitude=${latitude}&longitude=${longitude}`;
 
